@@ -1,3 +1,4 @@
+import os
 import sys
 import json
 
@@ -85,8 +86,14 @@ class ResourcesView(TastypieApiMixin, SwaggerApiDataMixin, JSONView):
 
         # Construct schema endpoints from resources
         apis = [{'path': '/%s' % name} for name in sorted(self.tastypie_api._registry.keys())]
+        basePath = self.request.build_absolute_uri(reverse('tastypie_swagger:schema'))
+        try:
+            if os.environ['HTTPS'] is 'on':
+                basePath = basePath.replace('http', 'https')
+        except KeyError:
+            pass
         context.update({
-            'basePath': self.request.build_absolute_uri(reverse('tastypie_swagger:schema')),
+            'basePath': basePath,
             'apis': apis,
         })
         return context

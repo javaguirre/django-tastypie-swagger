@@ -191,7 +191,8 @@
       this.path = this.api.resourcePath != null ? this.api.resourcePath : resourceObj.path;
       this.description = resourceObj.description;
       parts = this.path.split("/");
-      this.name = parts[parts.length - 1].replace('.{format}', '');
+      // this.name = parts[parts.length - 1].replace('.{format}', '');
+      this.name = this.path.replace('/', '');
       this.basePath = this.api.basePath;
       this.operations = {};
       this.operationsArray = [];
